@@ -1,30 +1,32 @@
+//  Data recovery from API -----------------------------
+
 fetch("http://localhost:3000/api/products")
     .then(function(res) {
       if (res.ok) {
         return res.json();
       }
     })
-    .then(function(products) {
-      products.forEach (product =>{
-        let items = document.getElementById ("items");
-        let article = document.createElement ("article");
-        let img = document.createElement ("img");
-        let alt = document.createElement ("alt")
-        img.innerHTML = product.imageUrl;
-        alt.innerHTML = product.altTxt;
-        let h3 = document.createElement ("h3");
-        h3.classList.add("productName");
-        h3.innerHTML = product.name;
-        let p = document.createElement ("p");
-        p.classList.add("productDescription");
-        p.innerHTML = product.description;
-        items.appendChild(article);
-        article.appendChild(h3);
-        article.appendChild(img);
-        article.appendChild(alt);
-        article.appendChild(p);
-
-      })
+    .then((products) =>{
+      console.table(products);
+      productsCouch(products);
     })
-    
-  
+    .catch((error) => {
+      console.log(error);
+    })
+
+
+// Function to display products from API ---------------
+
+function productsCouch (index) {
+  let displayProduct = document.querySelector("#items");
+  for (let article of index) {
+    displayProduct.innerHTML += 
+    `<a href="./product.html?_id=${article._id}">
+    <article>
+      <img src="${article.imageUrl}" alt="${article.altTxt}">
+      <h3 class="productName">${article.name}</h3>
+      <p class="productDescription">${article.description}</p>
+    </article>
+  </a>`;
+  }
+}
