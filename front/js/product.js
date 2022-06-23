@@ -23,6 +23,17 @@ fetch("http://localhost:3000/api/products")
 
 // Function to display product from API -------------------------
 
+function setOfProducts(product) {
+  let itemImg = document.getElementsByClassName ("item_img");
+  itemImg.innerHTML = product.imageURL;
+  let itemTitle = document.getElementById ("title");
+  itemTitle.innerHTML = product.name;
+  let itemPrice = document.getElementById ("price");
+  itemPrice.innerHTML= product.price;
+  let itemDescription = document.getElementById ("description");
+  itemDescription.innerHTML = product.description;
+  }
+
   
 
 // Function to choose color -------------------------------------
