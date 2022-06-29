@@ -7,7 +7,7 @@ fetch("http://localhost:3000/api/products")
       }
     })
     .then((products) =>{
-      console.table(products);
+
       productsCouch(products);
     })
     .catch((error) => {
