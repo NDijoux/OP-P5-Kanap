@@ -1,11 +1,11 @@
-// Identification of the product via his id through URL ---------
+// Identification of the product via his id through URL ----------------------
 
 let params = new URL(window.location.href);
 let idProduct = params.searchParams.get("_id");
 console.log(idProduct);
 
 
-//  Data recovery from API --------------------------------------
+//  Data recovery from API ---------------------------------------------------
 
 fetch("http://localhost:3000/api/products/"+idProduct)
     .then(function(res) {
@@ -13,7 +13,7 @@ fetch("http://localhost:3000/api/products/"+idProduct)
         return res.json();
       }
     })
-// Function to display product from API -------------------------
+// Function to display product from API -------------------------------------- 
     .then(function (products) {
       let itemImg = document.querySelector("article div.item__img");
       let img = document.createElement ("img");
@@ -26,7 +26,7 @@ fetch("http://localhost:3000/api/products/"+idProduct)
       let itemDescription = document.getElementById ("description");
       itemDescription.innerHTML = products.description;
       itemImg.appendChild(img);
-// Function to choose color -------------------------------------
+// Function to choose color ---------------------------------------------------
       let itemColors = document.getElementById ("colors");
       let colorOptn = document.createElement ("option");
       for (let color of products.colors) { 
@@ -35,3 +35,14 @@ fetch("http://localhost:3000/api/products/"+idProduct)
       itemColors.appendChild(colorOptn);
     })
 
+
+// Function to stock informations for local storage
+document.getElementById("addToCart").onclick = function() {itemStorage(localStorage)};
+
+function itemStorage(localStorage) {
+ let itemJson = {
+   id : idProduct,
+  }
+ let itemLinea = JSON.stringify(itemJson);
+ localStorage.setItem("itemForCart",itemLinea);
+}
