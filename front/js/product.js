@@ -28,11 +28,19 @@ fetch("http://localhost:3000/api/products/"+idProduct)
       itemImg.appendChild(img);
 // Function to choose color ---------------------------------------------------
       let itemColors = document.getElementById ("colors");
-      let colorOptn = document.createElement ("option");
-      for (let color of products.colors) { 
-        colorOptn.innerHTML = `<option value="${color}">${color}</option>`;
-      }
-      itemColors.appendChild(colorOptn);
+      products.colors.forEach(element => {
+        let colorOptn = document.createElement ("option");
+        for (let color of products.colors) {
+          colorOptn.innerHTML = `${color}`;
+          colorOptn.value = `${color}`;
+        }
+        itemColors.appendChild(colorOptn);
+      });
+      // let colorOptn = document.createElement ("option");
+     //  for (let color of products.colors) { 
+     //   colorOptn.innerHTML = `<option value="${color}">${color}</option>`;
+     //  } 
+      // itemColors.appendChild(colorOptn);
     })
 
 
