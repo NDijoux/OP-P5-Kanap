@@ -29,12 +29,12 @@ fetch("http://localhost:3000/api/products/"+idProduct)
 // Function to choose color ---------------------------------------------------
       let itemColors = document.getElementById ("colors");
       products.colors.forEach(element => {
-        let colorOptn = document.createElement ("option");
         for (let color of products.colors) {
-          colorOptn.innerHTML = `${color}`;
-          colorOptn.value = `${color}`;
+          let colorOptn = document.createElement ("option");
+          itemColors.appendChild(colorOptn);
+          colorOptn.innerHTML = color;
+          colorOptn.value = color;
         }
-        itemColors.appendChild(colorOptn);
       });
       // let colorOptn = document.createElement ("option");
      //  for (let color of products.colors) { 
@@ -45,12 +45,18 @@ fetch("http://localhost:3000/api/products/"+idProduct)
 
 
 // Function to stock informations for local storage
-document.getElementById("addToCart").onclick = function() {itemStorage(localStorage)};
-
-function itemStorage(localStorage) {
- let itemJson = {
-   id : idProduct,
+let addCart = document.getElementById("addToCart");
+addCart.addEventListener("click", function() {
+  let itemJson = {
+    id : idProduct,
+    color : document.getElementById ("colors").value,
+    quantity : parseInt(document.getElementById ("quantity").value),
+   }
+  let cart = JSON.parse(localStorage.getItem("itemForCart"));
+  // push element to cart
+  const test = () => {
+    cart.push (itemJson);
+    localStorage.setItem("itemForCart",JSON.stringify(cart));
   }
- let itemLinea = JSON.stringify(itemJson);
- localStorage.setItem("itemForCart",itemLinea);
-}
+ // for later : let itemLinea = JSON.stringify(itemJson);
+})
