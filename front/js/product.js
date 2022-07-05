@@ -5,7 +5,7 @@ let idProduct = params.searchParams.get("_id");
 console.log(idProduct);
 
 
-//  Data recovery from API ---------------------------------------------------
+//  Data recovery from API & IdProduct ---------------------------------------------------
 
 fetch("http://localhost:3000/api/products/"+idProduct)
     .then(function(res) {
@@ -28,35 +28,29 @@ fetch("http://localhost:3000/api/products/"+idProduct)
       itemImg.appendChild(img);
 // Function to choose color ---------------------------------------------------
       let itemColors = document.getElementById ("colors");
-      products.colors.forEach(element => {
         for (let color of products.colors) {
           let colorOptn = document.createElement ("option");
           itemColors.appendChild(colorOptn);
           colorOptn.innerHTML = color;
           colorOptn.value = color;
         }
-      });
-      // let colorOptn = document.createElement ("option");
-     //  for (let color of products.colors) { 
-     //   colorOptn.innerHTML = `<option value="${color}">${color}</option>`;
-     //  } 
-      // itemColors.appendChild(colorOptn);
     })
 
 
-// Function to stock informations for local storage
+// Function to stock informations for local storage ---------------------------
 let addCart = document.getElementById("addToCart");
-addCart.addEventListener("click", function() {
+addCart.addEventListener("click", function()  {
   let itemJson = {
     id : idProduct,
     color : document.getElementById ("colors").value,
     quantity : parseInt(document.getElementById ("quantity").value),
    }
   let cart = JSON.parse(localStorage.getItem("itemForCart"));
-  // push element to cart
+  // push element to cart ---------------------------------------------------
   const test = () => {
-    cart.push (itemJson);
+    cart.push(itemJson);
     localStorage.setItem("itemForCart",JSON.stringify(cart));
   }
- // for later : let itemLinea = JSON.stringify(itemJson);
+  test();
+// for later : let itemLinea = JSON.stringify(itemJson);
 })
