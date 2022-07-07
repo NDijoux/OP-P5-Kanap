@@ -37,7 +37,8 @@ fetch("http://localhost:3000/api/products/"+idProduct)
     })
 
 
-// Function to stock informations for local storage ---------------------------
+// Function to create informations for local storage ---------------------------
+
 let addCart = document.getElementById("addToCart");
 addCart.addEventListener("click", function()  {
   let itemJson = {
@@ -46,11 +47,20 @@ addCart.addEventListener("click", function()  {
     quantity : parseInt(document.getElementById ("quantity").value),
    }
   let cart = JSON.parse(localStorage.getItem("itemForCart"));
-  // push element to cart ---------------------------------------------------
+// Push element to cart ---------------------------------------------------
   const test = () => {
     cart.push(itemJson);
     localStorage.setItem("itemForCart",JSON.stringify(cart));
   }
-  test();
-// for later : let itemLinea = JSON.stringify(itemJson);
+  if (cart) {
+    test();
+    }
+    else {
+    cart = [];
+    test();
+    }
 })
+
+
+// Function to modify quantity for a same product (same id & color)
+// for later : let itemLinea = JSON.stringify(itemJson);

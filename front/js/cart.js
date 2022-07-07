@@ -1,5 +1,7 @@
 // Data recovery from API & Localstorage ---------------------------
 
+let cartData = JSON.parse(localStorage.getItem("itemForCart"));
+
 fetch("http://localhost:3000/api/products/")
     .then(function(res) {
       if (res.ok) {
