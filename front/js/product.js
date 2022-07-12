@@ -41,26 +41,47 @@ fetch("http://localhost:3000/api/products/"+idProduct)
 
 let addCart = document.getElementById("addToCart");
 addCart.addEventListener("click", function()  {
-  let itemJson = {
+  let itemData = {
     id : idProduct,
     color : document.getElementById ("colors").value,
     quantity : parseInt(document.getElementById ("quantity").value),
    }
-  let cart = JSON.parse(localStorage.getItem("itemForCart"));
-// Push element to cart ---------------------------------------------------
-  const test = () => {
-    cart.push(itemJson);
-    localStorage.setItem("itemForCart",JSON.stringify(cart));
-  }
-  if (cart) {
-    test();
-    }
-    else {
-    cart = [];
-    test();
-    }
-})
 
+   let cart = JSON.parse(localStorage.getItem("itemForCart"));
+  // Const to push element to cart ---------------------------------------------------
+     const addLocalStorage = () => {
+       cart.push(itemData);
+       localStorage.setItem("itemForCart",JSON.stringify(cart));
+     }
+     /* if (cart) {
+       addLocalStorage();
+       }
+       else {
+       cart = [];
+       addLocalStorage();
+       } */
+  // Function to create array in local storage & push first element
+      if (cart) {
+        addLocalStorage();
+      }
+      else if (cart == null) {
+        cart = [];
+        addLocalStorage();
+  // Function to modify quantity for a same product (same id & color)
+      } else if (cart != null) {
+        for (i = 0; i < cart.lenght; i++) {
+          if (
+            cart[i].id == idProduct && 
+            cart[i].color == document.getElementById ("colors").value 
+            ) {
+            return (
+              cart[i].quantity++,
+              localStorage.setItem("itemForCart",JSON.stringify(cart)),
+              (cart = JSON.parse(localStorage.getItem("itemForCart")))
+            )
+          }
+        }
+      }
+  }) 
 
-// Function to modify quantity for a same product (same id & color)
 // for later : let itemLinea = JSON.stringify(itemJson);

@@ -62,36 +62,29 @@ function displayCart () {
         cartQuantityInput.max = "100";
         cartQuantityInput.value = retrieveDataItems.quantity
         cartQuantity.appendChild(cartQuantityInput);
-    })
-   }
-  }
-    displayCart();
-// Function to manage quantity --------------------------------------------------------------------
-
-        /* let cartQuantity = document.createElement ("div");
-        cartQuantity.classList.add('cart__item__content__settings__quantity');
-        cartSettings.appendChild(cartQuantity);
-        let cartQuantityTxt = document.createElement ("p");
-        cartQuantityTxt.innerHTML = 
-        `Qté : ${cartProducts.quantity}`;
-        cartQuantity.appendChild(cartQuantityTxt);
-        let cartQuantityInput = document.createElement ("input");
-        cartQuantityInput.type = "number";
-        cartQuantityInput.className = "itemQuantity";
-        cartQuantityInput.name = "itemQuantity";
-        cartQuantityInput.min = "1";
-        cartQuantityInput.max = "100";
-        cartQuantityInput.value = "42";
-        cartQuantity.appendChild(cartQuantityInput);
-
-// Function to delete product -----------------------------------------------------------------------
-
         let cartDelete = document.createElement ("div");
         cartDelete.classList.add("cart__item__content__settings__delete");
         cartSettings.appendChild(cartDelete);
         let cartDeleteTxt = document.createElement ("p");
         cartDeleteTxt.classList.add("deleteItem");
         cartDeleteTxt.textContent = "Supprimer";
-        cartDelete.appendChild(cartDeleteTxt); */
+        cartDelete.appendChild(cartDeleteTxt);
+    })
+   }
+  }
+    displayCart();
+// Function to manage quantity --------------------------------------------------------------------
+let itemQuantityManagement = document.getElementsByClassName("itemQuantity");
+itemQuantityManagement.addEventListener("change", function() {
+
+}
+)
+
+// Function to delete product -----------------------------------------------------------------------
+let deleteProduct = document.getElementsByClassName("deleteItem");
+deleteProduct.addEventListener("click", function() {
+
+}
+)
 // Function to calculate and display total quantity
 // Function to calculate and display total price
