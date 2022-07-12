@@ -53,6 +53,7 @@ addCart.addEventListener("click", function()  {
        cart.push(itemData);
        localStorage.setItem("itemForCart",JSON.stringify(cart));
      }
+
      /* if (cart) {
        addLocalStorage();
        }
@@ -60,15 +61,15 @@ addCart.addEventListener("click", function()  {
        cart = [];
        addLocalStorage();
        } */
+
   // Function to create array in local storage & push first element
-      if (cart) {
-        addLocalStorage();
+       if (cart == null) {
+       cart = [];
+       addLocalStorage();
       }
-      else if (cart == null) {
-        cart = [];
+       else if (cart != null) {
         addLocalStorage();
   // Function to modify quantity for a same product (same id & color)
-      } else if (cart != null) {
         for (i = 0; i < cart.lenght; i++) {
           if (
             cart[i].id == idProduct && 
@@ -82,6 +83,6 @@ addCart.addEventListener("click", function()  {
           }
         }
       }
-  }) 
+}) 
 
 // for later : let itemLinea = JSON.stringify(itemJson);
