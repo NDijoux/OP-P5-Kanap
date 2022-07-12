@@ -76,15 +76,16 @@ function displayCart () {
 // Function to manage quantity --------------------------------------------------------------------
 let itemQuantityManagement = document.getElementsByClassName("itemQuantity");
 itemQuantityManagement.addEventListener("change", function() {
-
+// même methode que la page produit + un parametre + bien penser à appeler les éléments dans des variables
 }
 )
 
 // Function to delete product -----------------------------------------------------------------------
 let deleteProduct = document.getElementsByClassName("deleteItem");
-deleteProduct.addEventListener("click", function() {
-
+deleteProduct.addEventListener("click", function(o) {
+// o.preventDefault ();
+// même methode mais avec filter et on se pose la question du et/ou + un parametre à mettre en default
 }
 )
 // Function to calculate and display total quantity
-// Function to calculate and display total price
+// Function to calculate and display total price --> se poser la question de quand le faire ? A chaque actualisation (suppression ou modifier la quantité) --> création d'une fonction en dehors (reload) qui actualise la page 

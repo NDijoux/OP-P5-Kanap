@@ -54,16 +54,25 @@ addCart.addEventListener("click", function()  {
        localStorage.setItem("itemForCart",JSON.stringify(cart));
      }
 
-     /* if (cart) {
-       addLocalStorage();
-       }
+      if (cart) {
+        let testIdColor = cart.find(p => p.id == itemData.id && p.color == itemData.color);
+        if ( testIdColor) {
+          let newQuantity = testIdColor.quantity+itemData.quantity;
+          testIdColor.quantity = newQuantity;
+          localStorage.setItem("itemForCart", JSON.stringify(cart));
+        } 
+        else {
+          addLocalStorage();
+        }
+    
+      }
        else {
        cart = [];
        addLocalStorage();
-       } */
+       } 
 
   // Function to create array in local storage & push first element
-       if (cart == null) {
+      /* if (cart == null) {
        cart = [];
        addLocalStorage();
       }
@@ -82,7 +91,7 @@ addCart.addEventListener("click", function()  {
             )
           }
         }
-      }
+      } */
 }) 
 
 // for later : let itemLinea = JSON.stringify(itemJson);
