@@ -73,17 +73,40 @@ function displayCart () {
    }
   }
     displayCart();
+
 // Function to manage quantity --------------------------------------------------------------------
-let itemQuantityManagement = document.getElementsByClassName("itemQuantity");
-itemQuantityManagement.addEventListener("change", function() {
 // même methode que la page produit + un parametre + bien penser à appeler les éléments dans des variables
-}
-)
+
+let itemQuantityManagement = document.querySelector(".itemQuantity");
+itemQuantityManagement.addEventListener("change", function() {
+  let editableData = retrieveDataItems;
+
+    const modifyLocalStorage = () => {
+    cartData.push(editableData);
+    localStorage.setItem("itemForCart",JSON.stringify(cartData));
+    }
+
+      if (cartData) {
+        let testQuantity = cartData.find(n => n.id == editableData.id && n.color == editableData.color);
+        if (testQuantity) {
+          let adjustedQuantity = testQuantity.quantity+editableData.quantity;
+          testQuantity.quantity = adjustedQuantity;
+          localStorage.setItem("itemForCart", JSON.stringify(cartData));
+        }
+        else {
+          modifyLocalStorage();
+        }
+      }
+        else {
+        modifyLocalStorage();
+        }
+})
 
 // Function to delete product -----------------------------------------------------------------------
 let deleteProduct = document.getElementsByClassName("deleteItem");
 deleteProduct.addEventListener("click", function(o) {
-// o.preventDefault ();
+  o.preventDefault ();
+  // let filtered = cartData.filer(m => m.id )
 // même methode mais avec filter et on se pose la question du et/ou + un parametre à mettre en default
 }
 )

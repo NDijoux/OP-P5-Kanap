@@ -70,28 +70,6 @@ addCart.addEventListener("click", function()  {
        cart = [];
        addLocalStorage();
        } 
-
-  // Function to create array in local storage & push first element
-      /* if (cart == null) {
-       cart = [];
-       addLocalStorage();
-      }
-       else if (cart != null) {
-        addLocalStorage();
-  // Function to modify quantity for a same product (same id & color)
-        for (i = 0; i < cart.lenght; i++) {
-          if (
-            cart[i].id == idProduct && 
-            cart[i].color == document.getElementById ("colors").value 
-            ) {
-            return (
-              cart[i].quantity++,
-              localStorage.setItem("itemForCart",JSON.stringify(cart)),
-              (cart = JSON.parse(localStorage.getItem("itemForCart")))
-            )
-          }
-        }
-      } */
 }) 
 
 // for later : let itemLinea = JSON.stringify(itemJson);
