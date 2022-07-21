@@ -81,8 +81,8 @@ function displayCart () {
                 if (cartData) {
                   let testQuantity = cartData.find(n => n.id == retrieveDataItems.id && n.color == retrieveDataItems.color);
                   if (testQuantity) {
-                  let adjustedQuantity = testQuantity.quantity+retrieveDataItems.quantity;
-                  testQuantity.quantity = adjustedQuantity;
+                  //let adjustedQuantity = testQuantity.quantity+retrieveDataItems.quantity;
+                  testQuantity.quantity = Number(cartQuantityInput.value);
                   localStorage.setItem("itemForCart", JSON.stringify(cartData));
                   }
                   else {
@@ -92,22 +92,42 @@ function displayCart () {
                 else {
                  modifyLocalStorage();
                 }
+                reload ();
            }) 
+
+            let deleteProduct = document.getElementsByClassName("deleteItem");
+             deleteProduct.addEventListener("click", function(o) {
+             o.preventDefault ();
+             let idDelete = retrieveDataItems.id;
+             let colorDelete = retrieveDataItems.color;
+             let filtered = cartData.filter(m => m.id != idDelete || m.color != colorDelete);
+             o.target.closest(".cart__item").remove;
+             localStorage.setItem("itemForCart", JSON.stringify(cartData));
+             reload ();
+            }
+           )  
          })
   }
 }
 displayCart();
 
-
+function reload () {
+  document.location.reload();
+}
 
 // Function to delete product -----------------------------------------------------------------------
- /*   let deleteProduct = document.getElementsByClassName("deleteItem");
+   /*let deleteProduct = document.getElementsByClassName("deleteItem");
     deleteProduct.addEventListener("click", function(o) {
       o.preventDefault ();
-  // let filtered = cartData.filer(m => m.id )
-// même methode mais avec filter et on se pose la question du et/ou + un parametre à mettre en default
-}
-)*/
+      let idDelete = retrieveDataItems.id;
+      let colorDelete = retrieveDataItems.color;
+      let filtered = cartData.filter(m => m.id != idDelete || m.color != colorDelete);
+      o.target.closest(".cart__item").remove;
+      localStorage.setItem("itemForCart", JSON.stringify(cartData));
+      document.location.reload();
+    }
+  )  */
+
 
 
 // Function to calculate and display total quantity
