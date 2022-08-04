@@ -1,7 +1,10 @@
 // Data recovery from API & Localstorage ---------------------------
 
+//const { json } = require("node:stream/consumers");
+
 let cartData = JSON.parse(localStorage.getItem("itemForCart"));
 function displayCart () {
+  let overallPrice = 0;
   for (let kanap of cartData) {
       let retrieveDataItems = 
       {
@@ -69,8 +72,8 @@ function displayCart () {
            cartDeleteTxt.classList.add("deleteItem");
            cartDeleteTxt.textContent = "Supprimer";
            cartDelete.appendChild(cartDeleteTxt);
+           
 // Function to manage quantity --------------------------------------------------------------------
-// même methode que la page produit + un parametre + bien penser à appeler les éléments dans des variables
            cartQuantityInput.addEventListener("change", function() {
 // Function to push new cart
               const modifyLocalStorage = () => {
@@ -81,7 +84,6 @@ function displayCart () {
                 if (cartData) {
                   let testQuantity = cartData.find(n => n.id == retrieveDataItems.id && n.color == retrieveDataItems.color);
                   if (testQuantity) {
-                  //let adjustedQuantity = testQuantity.quantity+retrieveDataItems.quantity;
                   testQuantity.quantity = Number(cartQuantityInput.value);
                   localStorage.setItem("itemForCart", JSON.stringify(cartData));
                   }
@@ -95,40 +97,272 @@ function displayCart () {
                 reload ();
            }) 
 
-            let deleteProduct = document.getElementsByClassName("deleteItem");
-             deleteProduct.addEventListener("click", function(o) {
+// Function to delete an element of the cart
+             cartDeleteTxt.addEventListener("click", (o) => {
              o.preventDefault ();
              let idDelete = retrieveDataItems.id;
              let colorDelete = retrieveDataItems.color;
              let filtered = cartData.filter(m => m.id != idDelete || m.color != colorDelete);
-             o.target.closest(".cart__item").remove;
-             localStorage.setItem("itemForCart", JSON.stringify(cartData));
+             let testRemove = o.target.closest("#cart__items");
+             testRemove.remove();
+             localStorage.setItem("itemForCart", JSON.stringify(filtered));
              reload ();
             }
-           )  
+           ) 
+           
+// Function to calculate total price 
+            fetch("http://localhost:3000/api/products/"+retrieveDataItems.id)
+              .then(function(res) {
+                if (res.ok) {
+                return res.json();
+                }
+              })
+              .then(function (p){
+                overallPrice += retrieveDataItems.quantity * p.price;
+                let finalPrice = document.querySelector("#totalPrice");
+                finalPrice.innerHTML = overallPrice;
+              })
+
          })
   }
 }
 displayCart();
 
+// Function to calculate and display total quantity
+function totalQty () {
+  let dataTotal = JSON.parse(localStorage.getItem("itemForCart"))
+  let overallQuantity = 0;
+  dataTotal.forEach(element => {
+    overallQuantity += element.quantity;
+  })
+  let finalQuantity = document.querySelector("#totalQuantity");
+  finalQuantity.innerHTML = overallQuantity;
+}
+totalQty();
+
+// Function to reload the page after an event
 function reload () {
   document.location.reload();
 }
 
-// Function to delete product -----------------------------------------------------------------------
-   /*let deleteProduct = document.getElementsByClassName("deleteItem");
-    deleteProduct.addEventListener("click", function(o) {
-      o.preventDefault ();
-      let idDelete = retrieveDataItems.id;
-      let colorDelete = retrieveDataItems.color;
-      let filtered = cartData.filter(m => m.id != idDelete || m.color != colorDelete);
-      o.target.closest(".cart__item").remove;
-      localStorage.setItem("itemForCart", JSON.stringify(cartData));
-      document.location.reload();
+// ------------------------------------ ORDER FORM -----------------------------------------
+
+// Const for every element of the form
+
+const firstName = document.getElementById("firstName");
+const lastName = document.getElementById("lastName");
+const address = document.getElementById("address");
+const city = document.getElementById("city");
+const email = document.getElementById("email");
+
+// variable for every value
+
+let valueFirstName, valueLastName, valueAddress, valueCity, valueEmail;
+
+// First Name eventlistener + regex 
+
+firstName.addEventListener("input", function (f) {
+  valueFirstName;
+  if (f.target.value.length == 0) {
+      firstNameErrorMsg.innerHTML = "";
+      valueFirstName = null;
+    //  console.log(valueFirstName);
+   }
+
+   else if (f.target.value.length < 2 || f.target.value.length > 25){
+     firstNameErrorMsg.innerHTML = "Le prénom doit contenir entre 2 et 25 caractères";
+     valueFirstName = null;
+   }
+
+   if (f.target.value.match(/^[a-z A-Z]{2,25}$/)){
+      firstNameErrorMsg.innerHTML = "";
+      valueFirstName = f.target.value;
+      console.log(valueFirstName);
+   }
+
+   if (
+    !f.target.value.match(/^[a-z A-Z]{2,25}$/)&&
+    f.target.value.length > 2 &&
+    f.target.value.length < 25
+   ) {
+    firstNameErrorMsg.innerHTML = "Le prénom ne doit pas contenir de caractères spéciaux, chiffe ou accent";
+    valueFirstName = null;
+  //  console.log("error : spe");
+   }
+})
+
+// Last Name eventlistener + regex 
+
+lastName.addEventListener("input", function (l) {
+  valueLastName;
+  if (l.target.value.length == 0) {
+      lastNameErrorMsg.innerHTML = "";
+      valueLastName = null;
+    //  console.log(valueLastName);
+   }
+
+   else if (l.target.value.length < 2 || l.target.value.length > 25){
+     lastNameErrorMsg.innerHTML = "Le nom doit contenir entre 2 et 25 caractères";
+     valueLastName = null;
+   }
+
+   if (l.target.value.match(/^[a-z A-Z]{2,25}$/)){
+      lastNameErrorMsg.innerHTML = "";
+      valueLastName = l.target.value;
+      console.log(valueLastName);
+   }
+
+   if (
+    !l.target.value.match(/^[a-z A-Z]{2,25}$/)&&
+    l.target.value.length > 2 &&
+    l.target.value.length < 25
+   ) {
+    lastNameErrorMsg.innerHTML = "Le nom ne doit pas contenir de caractères spéciaux, chiffe ou accent";
+    valueLastName = null;
+  //  console.log("error : spe");
+   }
+})
+
+// Address eventlistener + regex 
+
+address.addEventListener("input", function (a) {
+  valueAddress;
+  if (a.target.value.length == 0) {
+      addressErrorMsg.innerHTML = "";
+      valueAddress = null;
+    //  console.log(valueAddress);
+   }
+
+   else if (a.target.value.length < 5 || a.target.value.length > 35){
+     addressErrorMsg.innerHTML = "Le nom doit contenir entre 5 et 35 caractères";
+     valueAddress = null;
+   }
+
+   if (a.target.value.match(/^[0-9]{1,4} [a-z A-Z]{5,35}$/)){
+      addressErrorMsg.innerHTML = "";
+      valueAddress = a.target.value;
+      console.log(valueAddress);
+   }
+
+   if (
+    !a.target.value.match(/^[0-9]{1,4} [a-z A-Z]{5,35}$/)&&
+    a.target.value.length > 5 &&
+    a.target.value.length < 35
+   ) {
+    addressErrorMsg.innerHTML = "L'adresse ne doit pas contenir de caractères spéciaux ou accent";
+    valueAddress = null;
+  //  console.log("error : spe");
+   }
+})
+
+// City eventlistener + regex 
+
+city.addEventListener("input", function (c) {
+  valueCity;
+  if (c.target.value.length == 0) {
+      cityErrorMsg.innerHTML = "";
+      valueCity = null;
+    //  console.log(valueCity);
+   }
+
+   else if (c.target.value.length < 2 || c.target.value.length > 25){
+     cityErrorMsg.innerHTML = "Le nom de la ville doit contenir entre 2 et 25 caractères";
+     valueCity = null;
+   }
+
+   if (c.target.value.match(/^[a-z A-Z]{2,25}$/)){
+      cityErrorMsg.innerHTML = "";
+      valueCity = c.target.value;
+      console.log(valueCity);
+   }
+
+   if (
+    !c.target.value.match(/^[a-z A-Z]{2,25}$/)&&
+    c.target.value.length > 2 &&
+    c.target.value.length < 25
+   ) {
+    cityErrorMsg.innerHTML = "Le nom de la ville ne doit pas contenir de caractères spéciaux, chiffe ou accent";
+    valueCity = null;
+  //  console.log("error : spe");
+   }
+})
+
+// Email eventlistener + regex 
+
+email.addEventListener("input", (em) => {
+  if (em.target.value.length == 0) {
+    emailErrorMsg.innerHTML = "";
+    valueEmail = null;
+  //  console.log(valueEmail);
+  }
+
+  else if (em.target.value.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+    emailErrorMsg.innerHTML = "";
+    valueEmail = em.target.value;
+    console.log(valueEmail);
+  }
+
+  if(
+    !em.target.value.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/) && 
+    !em.target.value.length == 0) {
+      emailErrorMsg.innerHTML = "Adresse Email invalide, ex : jean.dupont@gmail.com";
+      valueEmail = null;
     }
-  )  */
+})
 
+// Order
 
+const orderForm = document.getElementsByTagName("form");
+console.log(orderForm);
 
-// Function to calculate and display total quantity
-// Function to calculate and display total price --> se poser la question de quand le faire ? A chaque actualisation (suppression ou modifier la quantité) --> création d'une fonction en dehors (reload) qui actualise la page 
+orderForm[0].addEventListener("submit", function (of) {
+  of.preventDefault();
+
+  if (
+    valueFirstName &&
+    valueLastName&&
+    valueAddress &&
+    valueCity&&
+    valueEmail
+  ) {
+    const finalOrder = JSON.parse(localStorage.getItem("itemForCart"));
+    let idForOrder = []
+  //  console.log(finalOrder);
+  //  console.log(idForOrder);
+
+    finalOrder.forEach((product) => {
+      idForOrder.push(product.id)
+    })
+
+    const dataOrder = {
+      contact : {
+        firstname : valueFirstName,
+        lastName : valueLastName,
+        address : valueAddress,
+        city : valueCity,
+        email : valueEmail,
+      },
+      products : idForOrder,
+    }
+
+    console.log(dataOrder);
+
+    fetch("http://localhost:3000/api/products/order", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(dataOrder),
+      cache: "default"
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        let serverResponse = data;
+        console.log(serverResponse);
+      })
+
+  } else {
+    console.log("error");
+  }
+})
