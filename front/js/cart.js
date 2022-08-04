@@ -325,22 +325,22 @@ orderForm[0].addEventListener("submit", function (of) {
     valueCity&&
     valueEmail
   ) {
-    const finalOrder = JSON.parse(localStorage.getItem("itemForCart"));
+  //  const finalOrder = JSON.parse(localStorage.getItem("itemForCart"));
     let idForOrder = []
   //  console.log(finalOrder);
   //  console.log(idForOrder);
 
-    finalOrder.forEach((product) => {
+    cartData.forEach((product) => {
       idForOrder.push(product.id)
     })
 
     const dataOrder = {
       contact : {
-        firstname : valueFirstName,
-        lastName : valueLastName,
-        address : valueAddress,
-        city : valueCity,
-        email : valueEmail,
+        firstname : document.getElementById("firstName").value,
+        lastName : document.getElementById("lastName").value,
+        address : document.getElementById("address").value,
+        city : document.getElementById("city").value,
+        email : document.getElementById("email").value,
       },
       products : idForOrder,
     }
@@ -350,7 +350,7 @@ orderForm[0].addEventListener("submit", function (of) {
     fetch("http://localhost:3000/api/products/order", {
       method: "POST",
       headers: {
-        Accept: "application/json",
+        "Accept": "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify(dataOrder),
@@ -360,6 +360,7 @@ orderForm[0].addEventListener("submit", function (of) {
       .then((data) => {
         let serverResponse = data;
         console.log(serverResponse);
+      //  document.location.href = "confirmation.html?" + serverResponse.orderId;
       })
 
   } else {
