@@ -46,7 +46,7 @@ function displayCart () {
            cartItemColor.innerHTML = retrieveDataItems.color; 
            cartDescription.appendChild(cartItemColor);
            let cartItemPrice = document.createElement ("p");
-           cartItemPrice.innerHTML = cartProducts.price;
+           cartItemPrice.innerHTML = cartProducts.price + "\u20AC";
            cartDescription.appendChild(cartItemPrice);
            let cartSettings = document.createElement ("div");
            cartSettings.classList.add('cart__item__content__settings');
@@ -313,7 +313,7 @@ email.addEventListener("input", (em) => {
 // Order
 
 const orderForm = document.getElementsByTagName("form");
-console.log(orderForm);
+// console.log(orderForm);
 
 orderForm[0].addEventListener("submit", function (of) {
   of.preventDefault();
@@ -325,7 +325,7 @@ orderForm[0].addEventListener("submit", function (of) {
     valueCity&&
     valueEmail
   ) {
-  //  const finalOrder = JSON.parse(localStorage.getItem("itemForCart"));
+  
     let idForOrder = []
   //  console.log(finalOrder);
   //  console.log(idForOrder);
@@ -336,7 +336,7 @@ orderForm[0].addEventListener("submit", function (of) {
 
     const dataOrder = {
       contact : {
-        firstname : document.getElementById("firstName").value,
+        firstName : document.getElementById("firstName").value,
         lastName : document.getElementById("lastName").value,
         address : document.getElementById("address").value,
         city : document.getElementById("city").value,
@@ -345,7 +345,7 @@ orderForm[0].addEventListener("submit", function (of) {
       products : idForOrder,
     }
 
-    console.log(dataOrder);
+    // console.log(dataOrder);
 
     fetch("http://localhost:3000/api/products/order", {
       method: "POST",
@@ -360,7 +360,8 @@ orderForm[0].addEventListener("submit", function (of) {
       .then((data) => {
         let serverResponse = data;
         console.log(serverResponse);
-      //  document.location.href = "confirmation.html?" + serverResponse.orderId;
+        localStorage.removeItem("itemForCart");
+        document.location.href = "confirmation.html?" + serverResponse.orderId;
       })
 
   } else {
