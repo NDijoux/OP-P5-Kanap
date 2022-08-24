@@ -74,7 +74,7 @@ function displayCart () {
            cartDelete.appendChild(cartDeleteTxt);
            
 // Function to manage quantity --------------------------------------------------------------------
-           cartQuantityInput.addEventListener("change", function() {
+           cartQuantityInput.addEventListener("change", function(d) {
 // Function to push new cart
               const modifyLocalStorage = () => {
                 cartData.push(retrieveDataItems);
@@ -83,12 +83,17 @@ function displayCart () {
         
                 if (cartData) {
                   let testQuantity = cartData.find(n => n.id == retrieveDataItems.id && n.color == retrieveDataItems.color);
-                  if (testQuantity) {
-                  testQuantity.quantity = Number(cartQuantityInput.value);
-                  localStorage.setItem("itemForCart", JSON.stringify(cartData));
+                  if (cartQuantityInput.value < 1) {
+                    let idDelete = retrieveDataItems.id;
+                    let colorDelete = retrieveDataItems.color;
+                    let filtered = cartData.filter(m => m.id != idDelete || m.color != colorDelete);
+                    let testRemove = d.target.closest("#cart__items");
+                    testRemove.remove();
+                    localStorage.setItem("itemForCart", JSON.stringify(filtered));
                   }
                   else {
-                   modifyLocalStorage();
+                    testQuantity.quantity = Number(cartQuantityInput.value);
+                    localStorage.setItem("itemForCart", JSON.stringify(cartData));
                   }
                 }
                 else {

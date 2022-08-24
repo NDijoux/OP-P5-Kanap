@@ -2,7 +2,7 @@
 
 let params = new URL(window.location.href);
 let idProduct = params.searchParams.get("_id");
-console.log(idProduct);
+// console.log(idProduct);
 
 
 //  Data recovery from API & IdProduct ---------------------------------------------------
@@ -54,22 +54,31 @@ addCart.addEventListener("click", function()  {
        localStorage.setItem("itemForCart",JSON.stringify(cart));
      }
 
-      if (cart) {
-        let testIdColor = cart.find(p => p.id == itemData.id && p.color == itemData.color);
-        if ( testIdColor) {
-          let newQuantity = testIdColor.quantity+itemData.quantity;
-          testIdColor.quantity = newQuantity;
-          localStorage.setItem("itemForCart", JSON.stringify(cart));
-        } 
-        else {
-          addLocalStorage();
-        }
+     if (
+      itemData.quantity < 1 ||
+      itemData.quantity > 100 ||
+      itemData.quantity === undefined ||
+      itemData.color === "" ||
+      itemData.color === undefined
+      ) {
+        alert("Pour valider votre choix d'article, veuillez renseigner une couleur et/ou une quantité comprise entre 1 et 100");
+      } else {
+        if (cart) {
+          let testIdColor = cart.find(p => p.id == itemData.id && p.color == itemData.color);
+          if ( testIdColor) {
+            let newQuantity = testIdColor.quantity+itemData.quantity;
+            testIdColor.quantity = newQuantity;
+            localStorage.setItem("itemForCart", JSON.stringify(cart));
+          } 
+          else {
+            addLocalStorage();
+          }
     
+        }
+        else {
+        cart = [];
+        addLocalStorage();
+        }
       }
-       else {
-       cart = [];
-       addLocalStorage();
-       } 
 }) 
 
-// for later : let itemLinea = JSON.stringify(itemJson);
