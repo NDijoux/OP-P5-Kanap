@@ -1,6 +1,5 @@
 // Data recovery from API & Localstorage ---------------------------
 
-//const { json } = require("node:stream/consumers");
 
 let cartData = JSON.parse(localStorage.getItem("itemForCart"));
 function displayCart () {
@@ -222,7 +221,7 @@ lastName.addEventListener("input", function (l) {
     l.target.value.length > 2 &&
     l.target.value.length < 25
    ) {
-    lastNameErrorMsg.innerHTML = "Le nom ne doit pas contenir de caractères spéciaux, chiffe ou accent";
+    lastNameErrorMsg.innerHTML = "Le nom ne doit pas contenir de caractères spéciaux, chiffre ou accent";
     valueLastName = null;
   //  console.log("error : spe");
    }
